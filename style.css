@@ -3,6 +3,7 @@
   --color-black: #3f454d;
   --color-white: #ffffff;
   --color-blue: #3b88c3;
+  --color-green: #3bc359;
   --color-yellow: #fbbe28;
   --color-pink: #fd7f84;
   --color-light-grey: #dfdfdf;
@@ -72,6 +73,12 @@ body {
   border-radius: var(--size-border);
 }
 
+.delBtn {
+  border: 0px;
+  background-color: transparent;
+  font-size: var(--button-font-size);
+}
+
 .blue {
   background-color: var(--color-blue);
 }
@@ -83,6 +90,11 @@ body {
 .pink {
   background-color: var(--color-pink);
 }
+
+.green {
+  background-color: var(--color-green);
+}
+
 
 .items {
   width: 60%;
@@ -108,4 +120,26 @@ body {
 .item__description {
   margin-left: var(--base-space);
   font-size: var(--button-font-size);
+  flex: 1 1 auto;
+}
+
+.add-container {
+  position: fixed;
+  background-color: var(--color-white);
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+    0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12);
+  top: 10%;
+  bottom: 10%;
+  left: 10%;
+  right: 10%;
+}
+
+.hide {
+  display: none;
 }

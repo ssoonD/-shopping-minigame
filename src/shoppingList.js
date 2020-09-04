@@ -1,3 +1,8 @@
+const state = {
+    data: [],
+    selected: undefined,
+};
+
 // Fetch the items from the JSON file
 // data.json에 있는 데이터를 읽어와서 item을 전달
 function loadItems() {
@@ -6,62 +11,111 @@ function loadItems() {
         // 2. 받아온 데이터가 성공적이면 json으로 변환 
         .then(response => response.json())
         // 3. json안에 있는 items를 return 
-        .then(json => json.items);
+        .then(json => json.items.map((item, index) => ({
+            key: index,
+            ...item
+        })));
 }
 
 // Update the list with the given items
-function displayItems(items) {
+function displayItems(state) {
+    const {
+        data,
+        selected,
+    } = state;
+
+    // clear
     const container = document.querySelector(".items");
-    // innerHTML 안좋음?
-    container.innerHTML = items.map(item => createHTMLString(item)).join('');
+    while (container.firstChild) {
+        container.removeChild(container.lastChild);
+    }
+    const items = state.selected ? data.filter(item => item[selected.key] === selected.value) : data;
+
+    for (const item of items) {
+        container.append(makeList(item));
+    }
 }
 
-// Create HTML list item from the given data item
-function createHTMLString(item) {
-    return `
-    <li class="item">
-        <img src="${item.image}" alt="${item.type}" class="item__thumbnail" />
-        <span class="item__description">${item.gender}, ${item.size}</span>
-    </li>
-    `;
+// Create list item from the given data item
+function makeList(item) {
+    const li = document.createElement("li");
+    const img = document.createElement("img");
+    const span = document.createElement("span");
+    const delBtn = document.createElement("button");
+
+    li.classList.add("item");
+
+    img.src = `${item.image}`;
+    img.alt = `${item.type}`;
+    img.classList.add("item__thumbnail");
+
+    span.innerText = `${item.gender}, ${item.size}`;
+    span.classList.add("item__description");
+
+    delBtn.innerText = `💸`;
+    delBtn.classList.add("delBtn");
+    delBtn.addEventListener('click', () => onDeleteButtonClick(state, item.key));
+
+    li.append(img);
+    li.append(span);
+    li.append(delBtn);
+
+    return li;
+}
+
+// Handle logo click
+function onLogoClick(state) {
+    state.selected = undefined;
+    displayItems(state);
 }
 
 // Handle button click
-function onButtonClick(event, items) {
+function onButtonClick(event, state) {
     const target = event.target;
     const key = target.dataset.key;
     const value = target.dataset.value;
     if (key == null || value == null) {
         return;
     }
-    displayItems(items.filter(item => item[key] === value));
-    // upDateItems(items, key, value);
+    state.selected = {
+        key,
+        value
+    };
+    displayItems(state);
 }
 
-// Make the items matching {key: value} insivible
-function upDateItems(items, key, value) {
-    items.forEach(item => {
-        if (item.dataset[key] === value) {
-            item.classList.remove('invisible');
-        } else {
-            item.classList.add('invisible');
-        }
-    });
-    displayItems(items.filter(item => item[key] === value));
+function onAddClick() {
+    const addContainer = document.querySelector('.add-container');
+    addContainer.classList.remove('hide');
 }
 
-function setEventListreners(items) {
+function onCloseAddClick() {
+    const addContainer = document.querySelector('.add-container');
+    addContainer.classList.add('hide');
+}
+
+function onDeleteButtonClick(state, key) {
+    state.data = state.data.filter(d => d.key !== key);
+    displayItems(state);
+}
+
+function setEventListreners(state) {
     const logo = document.querySelector('.logo');
     const buttons = document.querySelector('.buttons');
-    logo.addEventListener('click', () => displayItems(items));
-    buttons.addEventListener('click', event => onButtonClick(event, items));
+    const addButton = document.querySelector('.add');
+    const closeAddButton = document.querySelector('.add-close');
+    logo.addEventListener('click', () => onLogoClick(state));
+    buttons.addEventListener('click', event => onButtonClick(event, state));
+    addButton.addEventListener('click', onAddClick);
+    closeAddButton.addEventListener('click', onCloseAddClick);
 }
 
 // main
 loadItems()
     .then(items => {
-        displayItems(items);
-        setEventListreners(items);
+        state.data = items;
+        displayItems(state);
+        setEventListreners(state);
     })
     .catch(console.log);
 
