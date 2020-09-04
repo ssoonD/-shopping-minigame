@@ -6,8 +6,106 @@
   --color-yellow: #fbbe28;
   --color-pink: #fd7f84;
   --color-light-grey: #dfdfdf;
+
+  /* size */
+  --base-space: 8px;
+  --size-button: 60px;
+  --size-border: 4px;
+  --size-thumbnail: 50px;
+  --button-font-size: 18px;
+
+  /* annimation */
+  --annimation-duration: 300ms;
 }
 
-* {
-  box-sizing: border-box;
+/*공통적으로 쓰이는 사이즈나 색상같은 경우는 
+변수로 정의해 놓고 쓰는 것이 좋다 
+? 나중에 변경될 사항이 있을 때 유지보수가 쉽다 */
+
+body {
+  height: 100vh;
+  /*vh : 뷰포트의 높이값에 맞게 사용 */
+  background-color: var(--color-black);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+/* 마우스를 올렸을 떄 클릭이 가능하도록 */
+.logo {
+  cursor: pointer;
+  /* 에니메이션 주기 */
+  transition: transform var(--annimation-duration) ease;
+}
+
+.btn {
+  /* 투명 */
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: transform var(--annimation-duration) ease;
+  margin-right: var(--base-space);
+}
+
+/* 마우스를 올렸을 때 크기의 변화 */
+.btn:hover,
+.logo:hover {
+  transform: scale(1.1);
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+}
+
+.imgBtn {
+  width: var(--size-button);
+  height: var(--size-button);
+}
+
+.colorBtn {
+  font-size: var(--button-font-size);
+  padding: calc(var(--base-space) * 2);
+  border-radius: var(--size-border);
+}
+
+.blue {
+  background-color: var(--color-blue);
+}
+
+.yellow {
+  background-color: var(--color-yellow);
+}
+
+.pink {
+  background-color: var(--color-pink);
+}
+
+.items {
+  width: 60%;
+  height: 60%;
+  list-style: none;
+  padding-left: 0;
+  overflow-y: scroll;
+}
+
+.item {
+  background-color: var(--color-white);
+  display: flex;
+  align-items: center;
+  padding: var(--base-space);
+  margin-bottom: var(--base-space);
+}
+
+.item__thumbnail {
+  width: var(--size-thumbnail);
+  height: var(--size-thumbnail);
+}
+
+.item__description {
+  margin-left: var(--base-space);
+  font-size: var(--button-font-size);
 }
