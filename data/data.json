@@ -8,14 +8,14 @@
         },
         {
             "type": "pants",
-            "gender": "man",
+            "gender": "male",
             "size": "small",
             "color": "blue",
             "image": "../img/blue_p.png"
         },
         {
             "type": "pants",
-            "gender": "man",
+            "gender": "male",
             "size": "large",
             "color": "yellow",
             "image": "../img/yellow_p.png"
@@ -64,14 +64,14 @@
         },
         {
             "type": "pants",
-            "gender": "man",
+            "gender": "male",
             "size": "small",
             "color": "blue",
             "image": "../img/blue_p.png"
         },
         {
             "type": "pants",
-            "gender": "man",
+            "gender": "male",
             "size": "large",
             "color": "yellow",
             "image": "../img/yellow_p.png"

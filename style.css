@@ -6,6 +6,7 @@
   --color-green: #3bc359;
   --color-yellow: #fbbe28;
   --color-pink: #fd7f84;
+  --color-purple: #a474f0;
   --color-light-grey: #dfdfdf;
 
   /* size */
@@ -139,6 +140,29 @@ body {
   left: 10%;
   right: 10%;
 }
+
+.add-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+.add-choice {
+  font-size: var(--button-font-size);
+  padding: calc(var(--base-space) * 2);
+  border-radius: var(--size-border);
+  margin: calc(var(--base-space) * 2);
+}
+
+.large,
+.small,
+.female,
+.male {
+  background-color: var(--color-purple);
+}
+
 
 .hide {
   display: none;

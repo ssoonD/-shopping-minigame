@@ -1,27 +1,31 @@
 const state = {
     data: [],
-    selected: undefined,
+    selected: undefined
 };
 
 // Fetch the items from the JSON file
 // data.json에 있는 데이터를 읽어와서 item을 전달
 function loadItems() {
-    // 1. 데이터 받아옴 
-    return fetch('data/data.json')
-        // 2. 받아온 데이터가 성공적이면 json으로 변환 
-        .then(response => response.json())
-        // 3. json안에 있는 items를 return 
-        .then(json => json.items.map((item, index) => ({
-            key: index,
-            ...item
-        })));
+    // 1. 데이터 받아옴
+    return (
+        fetch("data/data.json")
+        // 2. 받아온 데이터가 성공적이면 json으로 변환
+        .then((response) => response.json())
+        // 3. json안에 있는 items를 return
+        .then((json) =>
+            json.items.map((item, index) => ({
+                key: index,
+                ...item,
+            }))
+        )
+    );
 }
 
 // Update the list with the given items
 function displayItems(state) {
     const {
         data,
-        selected,
+        selected
     } = state;
 
     // clear
@@ -29,8 +33,13 @@ function displayItems(state) {
     while (container.firstChild) {
         container.removeChild(container.lastChild);
     }
-    const items = state.selected ? data.filter(item => item[selected.key] === selected.value) : data;
 
+    // Select data 
+    const items = state.selected ?
+        data.filter((item) => item[selected.key] === selected.value) :
+        data;
+
+    // Add data
     for (const item of items) {
         container.append(makeList(item));
     }
@@ -54,7 +63,7 @@ function makeList(item) {
 
     delBtn.innerText = `💸`;
     delBtn.classList.add("delBtn");
-    delBtn.addEventListener('click', () => onDeleteButtonClick(state, item.key));
+    delBtn.addEventListener("click", () => onDeleteButtonClick(state, item.key));
 
     li.append(img);
     li.append(span);
@@ -79,47 +88,49 @@ function onButtonClick(event, state) {
     }
     state.selected = {
         key,
-        value
+        value,
     };
     displayItems(state);
 }
 
-function onAddClick() {
-    const addContainer = document.querySelector('.add-container');
-    addContainer.classList.remove('hide');
-}
-
-function onCloseAddClick() {
-    const addContainer = document.querySelector('.add-container');
-    addContainer.classList.add('hide');
-}
-
 function onDeleteButtonClick(state, key) {
-    state.data = state.data.filter(d => d.key !== key);
+    state.data = state.data.filter((d) => d.key !== key);
     displayItems(state);
 }
 
-function setEventListreners(state) {
-    const logo = document.querySelector('.logo');
-    const buttons = document.querySelector('.buttons');
-    const addButton = document.querySelector('.add');
-    const closeAddButton = document.querySelector('.add-close');
-    logo.addEventListener('click', () => onLogoClick(state));
-    buttons.addEventListener('click', event => onButtonClick(event, state));
-    addButton.addEventListener('click', onAddClick);
-    closeAddButton.addEventListener('click', onCloseAddClick);
+function onAddClick() {
+    const addContainer = document.querySelector(".add-container");
+    addContainer.classList.remove("hide");
 }
 
-// main
-loadItems()
-    .then(items => {
-        state.data = items;
-        displayItems(state);
-        setEventListreners(state);
-    })
-    .catch(console.log);
+function onCloseAddClick() {
+    const addContainer = document.querySelector(".add-container");
+    addContainer.classList.add("hide");
+}
 
+function setEventListreners(state) {
+    const logo = document.querySelector(".logo");
+    const buttons = document.querySelector(".buttons");
+    const addButton = document.querySelector(".add");
+    const closeAddButton = document.querySelector(".add-close");
+    logo.addEventListener("click", () => onLogoClick(state));
+    buttons.addEventListener("click", (event) => onButtonClick(event, state));
+    addButton.addEventListener("click", onAddClick);
+    closeAddButton.addEventListener("click", onCloseAddClick);
+}
+
+function init() {
+    loadItems()
+        .then((items) => {
+            state.data = items;
+            displayItems(state);
+            setEventListreners(state);
+        })
+        .catch(console.log);
+}
+
+init();
 
 // 추가하고 싶은 기능
-// 1. 삭제
+// 1. 삭제 - O
 // 2. 입력
