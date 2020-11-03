@@ -149,6 +149,19 @@ body {
   margin: 0;
 }
 
+.add-close {
+  position: absolute;
+  padding: 0;
+  border: none;
+  right: 10px;
+  top: 10px;
+}
+
+.add-values {
+  padding: calc(var(--base-space) * 2);
+  margin: calc(var(--base-space) * 2);
+}
+
 .add-choice {
   font-size: var(--button-font-size);
   padding: calc(var(--base-space) * 2);
